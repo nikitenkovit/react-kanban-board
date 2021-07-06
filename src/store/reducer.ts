@@ -1,7 +1,8 @@
 import React from "react";
-import {GET_TASKS, CLEAR_BASKET} from "./action-types";
+import {GET_TASKS, CLEAR_BASKET, CHANGE_TASK_TITLE, ADD_TASK} from "./action-types";
 import {Task} from "../types";
 import {Status} from "../constants";
+import {nanoid} from "nanoid";
 
 export interface stateTypes {
   taskList: Array<Task> | []
@@ -27,6 +28,25 @@ export const reducer = (state = initialState, action: any) => {
       return {
         ...state,
         taskList: state.taskList.filter((task) => task.status !== Status.BASKET)
+      };
+    case CHANGE_TASK_TITLE:
+      return {
+        ...state,
+        taskList: [...state.taskList.map((task) => {
+          if (task.id === action.payload.id) {
+            return {...task, title: action.payload.newTitle};
+          }
+          return task;
+        })]
+      };
+    case ADD_TASK:
+      return {
+        ...state,
+        taskList: [...state.taskList, {
+          id: nanoid(),
+          title: action.payload,
+          status: Status.BACKLOG
+        }]
       };
     default:
       return state;

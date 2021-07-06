@@ -1,13 +1,24 @@
-import React from "react";
+import React, {useContext, useRef} from "react";
+import {ContextApp} from "../../store/reducer";
+import {ActionCreator} from "../../store/action-creator";
 
 const AddTask = () => {
+  const {dispatch} = useContext(ContextApp)
+  const inputRef = useRef<HTMLInputElement>(null!);
+
+  const handleFormSubmit = (evt: any): void => {
+    evt.preventDefault();
+    dispatch(ActionCreator.addTask(inputRef.current.value));
+    evt.currentTarget.reset();
+  };
+
   return (
     <section className="add-task">
       <h2 className="visually-hidden">Добавить задачу</h2>
-      <form className="add-task__form" aria-label="Форма добавления задачи">
+      <form className="add-task__form" aria-label="Форма добавления задачи" onSubmit={handleFormSubmit}>
         <div className="add-task__input-wrapper">
           <label htmlFor="add-task">Новая задача</label>
-          <input type="text" name="task-name" id="add-task" placeholder="Название задачи..." required />
+          <input type="text" name="task-name" id="add-task" placeholder="Название задачи..." required ref={inputRef}/>
         </div>
         <button className="add-task__button button" type="submit">
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
