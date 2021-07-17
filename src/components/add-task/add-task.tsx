@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from "react";
+import React, {FormEvent, useContext, useRef} from "react";
 import {ContextApp} from "../../store/reducer";
 import {ActionCreator} from "../../store/action-creator";
 
@@ -6,10 +6,10 @@ const AddTask = () => {
   const {dispatch} = useContext(ContextApp)
   const inputRef = useRef<HTMLInputElement>(null!);
 
-  const handleFormSubmit = (evt: any): void => {
+  const handleFormSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
     dispatch(ActionCreator.addTask(inputRef.current.value));
-    evt.currentTarget.reset();
+    (evt.currentTarget as HTMLFormElement).reset();
   };
 
   return (

@@ -1,5 +1,12 @@
 import React from "react";
-import {GET_TASKS, CLEAR_BASKET, CHANGE_TASK_TITLE, ADD_TASK} from "./action-types";
+import {
+  GET_TASKS,
+  CLEAR_BASKET,
+  CHANGE_TASK_TITLE,
+  ADD_TASK,
+  CHANGE_TASK_POSITION,
+  CHANGE_STATUS
+} from "./action-types";
 import {Task} from "../types";
 import {Status} from "../constants";
 import {nanoid} from "nanoid";
@@ -7,7 +14,6 @@ import {nanoid} from "nanoid";
 export interface stateTypes {
   taskList: Array<Task> | []
 }
-
 export interface IContext {
   state: stateTypes,
   dispatch?: any
@@ -15,6 +21,7 @@ export interface IContext {
 export const initialState: stateTypes = {
   taskList: []
 };
+
 export const ContextApp: React.Context<IContext> = React.createContext({state: initialState});
 
 export const reducer = (state = initialState, action: any) => {
@@ -47,6 +54,18 @@ export const reducer = (state = initialState, action: any) => {
           title: action.payload,
           status: Status.BACKLOG
         }]
+      };
+    case CHANGE_TASK_POSITION:
+      return {
+        ...state,
+        taskList: [...action.payload]
+      };
+    case CHANGE_STATUS:
+      return {
+        ...state,
+        taskList: state.taskList.map((task) => {
+          return task.id === action.payload.id ? {...task, status: action.payload.status} : task
+        })
       };
     default:
       return state;

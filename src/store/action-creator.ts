@@ -1,4 +1,11 @@
-import {GET_TASKS, CLEAR_BASKET, CHANGE_TASK_TITLE, ADD_TASK} from "./action-types";
+import {
+  GET_TASKS,
+  CLEAR_BASKET,
+  CHANGE_TASK_TITLE,
+  ADD_TASK,
+  CHANGE_TASK_POSITION,
+  CHANGE_STATUS
+} from "./action-types";
 import {Task} from "../types";
 
 export const ActionCreator = {
@@ -19,5 +26,19 @@ export const ActionCreator = {
   addTask: (title: string) => ({
     type: ADD_TASK,
     payload: title
+  }),
+  changeStatus: (id: string, status: string) => ({
+    type: CHANGE_STATUS,
+    payload: {
+      id,
+      status
+    }
+  }),
+  changeTaskPosition: (id: string, status: string) => ({
+    type: CHANGE_TASK_POSITION,
+    payload: {
+      id,
+      status
+    }
   }),
 };
